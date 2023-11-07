@@ -1,0 +1,182 @@
+#include <iostream>
+
+using namespace std;
+
+//domeniul este CO RP ORATIE- Popescu Ruxandra
+//cele 3 obeicte sunt Angajat, Departament, Proiect
+
+class Angajat {
+public:
+	const int salariu; //atribut constant 
+	string nume; //atribut normal
+	int varsta; //atribut normal
+	static int zileConcediu; //atribut static
+	char* tip; // valoare alocata in HEAP
+
+	// constructor implicit
+	Angajat() :salariu(3000) {
+		nume = "Adrian";
+		varsta = 29;
+		tip = new char('M');
+	}
+
+	// constructor cu parametrii
+	Angajat(string nume, int varsta, char tip) :salariu(4000) {
+		this->nume = nume;
+		this->varsta = varsta;
+		this->tip = new char(tip);
+	}
+
+	// constructor cu parametrii din care unul este static
+	Angajat(string nume, int varsta) :salariu(5000) {
+		this->nume = nume;
+		this->varsta = varsta;
+		this->tip = new char('M');
+	}
+
+	// funcție statică pentru calcul
+	static int getZileConcediu() {
+		return zileConcediu;
+	}
+
+	// functie de afisare 
+	void afisare() {
+		cout << "Angajatul " << nume << " are salariul " << salariu << "lei, varsta de " << varsta << " ani si este de tip " << *tip << endl << endl;
+	}
+};
+
+int Angajat::zileConcediu = 21; //atribuire element static 
+
+class Departament {
+public:
+	//atribut constant 
+	const string nume;
+	//atribut normal
+	int anInfiintare;
+	int nrAngajati;
+	//atribut static
+	static string sediu;
+	//pointer cu spatiu in HEAP
+	float* nrDep;
+
+	// constructor implicit
+	Departament() :nume("AHM") {
+		anInfiintare = 1980;
+		nrAngajati = 100;
+		nrDep = new float(22.1);
+	}
+
+	// constructor cu parametrii
+	Departament(int anInfiintare, int nrAngajati, float nrDep) :nume("DLL") {
+		this->anInfiintare = anInfiintare;
+		this->nrAngajati = nrAngajati;
+		this->nrDep = new float(nrDep);
+	}
+
+	// constructor cu parametrii din care unul este static
+	Departament(int nrAngajati, float nrDep) :nume("CSV") {
+		this->anInfiintare = 2010;
+		this->nrAngajati = nrAngajati;
+		this->nrDep = new float(nrDep);
+	}
+
+	// Funcție statică pentru calcul
+	static string getSediu() {
+		return sediu;
+	}
+
+	// functie de afisare 
+	void afisare() {
+		cout << "Departamentul " << nume << " cu numarul de departament " << *nrDep << ", a fost infiintat in anul " << anInfiintare << " si are " << nrAngajati << " angajati.\n" << endl;
+	}
+};
+
+string Departament::sediu = "Cibernetica";
+
+class Proiect {
+public:
+	const bool aprobare;
+	int durata;
+	float cost;
+	static string nume;
+	int* dataStart = NULL;
+
+	Proiect() :aprobare(false) {
+		durata = 5;
+		cost = 500.4;
+		dataStart = new int[3] {1, 1, 2025};
+	}
+
+	Proiect(int durata, float cost, int dataStart[3]) :aprobare(true) {
+		this->durata = durata;
+		this->cost = cost;
+		this->dataStart = new int[3];
+		this->dataStart = dataStart;
+	}
+
+	Proiect(int durata, int dataStart[3]) :aprobare(true) {
+		this->durata = durata;
+		this->cost = 122.22;
+		this->dataStart = new int[3];
+		this->dataStart = dataStart;
+	}
+
+	static string getNume() {
+		return nume;
+	}
+
+	void afisare() {
+		cout << "Proiectul care incepe in data de " << dataStart[0] << "." << dataStart[1] << "." << dataStart[2] << ", cu durata de " << durata << " zile si costurile de " << cost << " lei";
+
+		if (aprobare) {
+			cout << " a fost aprobat.\n" << endl;
+		}
+		else {
+			cout << " nu a fost aprobat.\n" << endl;
+		}
+	}
+};
+
+string Proiect::nume = "PlanulAfacerii";
+
+int main() {
+	// Testăm toți constructorii pentru cele trei clase
+
+	//Clasa Angajat
+	
+	Angajat angajat1; // constructor implicit
+	angajat1.afisare();
+	Angajat angajat2("Madalina", 30, 'F'); // constructor cu parametrii
+	angajat2.afisare();
+	Angajat angajat3("Ion", 44); // constructor cu parametrii si unul este static
+	angajat3.afisare();
+
+	cout << "Toti angajatii au " << angajat1.getZileConcediu() << " zile de concediu" << endl;
+
+
+	//Clasa Departament
+	
+	Departament dep1; // constructor implicit
+	dep1.afisare();
+	Departament dep2(2003, 45, 12.6); // constructor cu parametrii
+	dep2.afisare();
+	Departament dep3(100, 5.6); // constructor cu parametrii si unul este static
+	dep3.afisare();
+
+	cout << "Toate departamentele au sediul la " << dep2.getSediu() << endl << endl;
+
+	//Clasa Proiect
+	
+	Proiect pr1; // constructor implicit
+	pr1.afisare();
+	int dataPr2[3] = { 12, 6, 2024 };
+	Proiect pr2(30, 135.25, dataPr2); // constructor cu parametrii
+	pr2.afisare();
+	int dataPr3[3] = { 25, 10, 2026 };
+	Proiect pr3(50, dataPr3); // constructor cu parametrii si unul este static
+	pr3.afisare();
+
+	cout << "Toate proiectele fac parte din clasa " << pr3.getNume() << endl << endl;
+
+	return 0;
+}
