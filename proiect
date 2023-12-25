@@ -6,44 +6,95 @@ using namespace std;
 //cele 3 obeicte sunt Angajat, Departament, Proiect
 
 class Angajat {
-public:
-	const int salariu; //atribut constant 
+private:
+    const int salariu; //atribut constant 
 	string nume; //atribut normal
 	int varsta; //atribut normal
 	static int zileConcediu; //atribut static
 	char* tip; // valoare alocata in HEAP
 
+public:
 	// constructor implicit
-	Angajat() :salariu(3000) {
-		nume = "Adrian";
-		varsta = 29;
-		tip = new char('M');
-	}
-
+    Angajat():salariu(3000){
+        this->nume = "Gigel";
+        this->varsta = 29;
+        this->tip = new char('M');
+    }	
+	
 	// constructor cu parametrii
-	Angajat(string nume, int varsta, char tip) :salariu(4000) {
-		this->nume = nume;
-		this->varsta = varsta;
-		this->tip = new char(tip);
+	Angajat(int salariu, string nume, int varsta, char tip):salariu(salariu){
+	    this->nume = nume;
+	    this->varsta = varsta;
+	    this->tip = new char(tip);
 	}
 
 	// constructor cu parametrii din care unul este static
-	Angajat(string nume, int varsta) :salariu(5000) {
-		this->nume = nume;
-		this->varsta = varsta;
-		this->tip = new char('M');
+	Angajat(int salariu, string nume, int varsta):salariu(salariu){
+	    this->nume = nume;
+	    this->varsta = varsta;
+	    this->tip = new char('M');
+	}
+	
+	// constructor de copiere
+	Angajat(const Angajat&a):salariu(a.salariu){
+	    this->nume = a.nume;
+	    this->varsta = a.varsta;
+	    this->tip = new char();
+	    this->tip = a.tip;
 	}
 
-	// funcție statică pentru calcul
-	static int getZileConcediu() {
-		return zileConcediu;
+    ~Angajat(){
+        if (this->tip != NULL) {
+            delete this->tip;
+        }
+    }
+	
+	//get-eri
+	int getSalariu(){
+	    return this->salariu;
 	}
-
+	string getNume(){
+	    return this->nume;
+	}
+	int getVarsta(){
+	    return this->varsta;
+	}
+	char* getTip(){
+	    return this->tip;
+	}
+	static int getZileConcediu(){
+	    return Angajat::zileConcediu;
+	}
+	
+	//set-eri
+	void setNume(string nume){
+	    this->nume = nume;
+	}
+	void setVarsta(int varsta){
+	    this->varsta = varsta;
+	}
+	void setTip(char* tip){
+	    this->tip = tip;
+	}
+	static void setZileDeConcediu(int zileConcediu){
+	    Angajat::zileConcediu = zileConcediu;
+	}
+	
 	// functie de afisare 
-	void afisare() {
-		cout << "Angajatul " << nume << " are salariul " << salariu << "lei, varsta de " << varsta << " ani si este de tip " << *tip << endl << endl;
+	void afisare(){
+	    cout<<"Angajatul "<<this->nume<<" are salariul "<<this->salariu<<"lei, varsta de "<<this->varsta<<" ani si este de tip "<<*this->tip<<endl<<endl;
 	}
+	
+	friend string getMajor(Angajat a);
 };
+
+string getMajor(Angajat a){
+    if (a.varsta > 40){
+        return "da";
+    } else{
+        return "nu";
+    }
+}
 
 int Angajat::zileConcediu = 21; //atribuire element static 
 
@@ -150,6 +201,20 @@ int main() {
 	angajat2.afisare();
 	Angajat angajat3("Ion", 44); // constructor cu parametrii si unul este static
 	angajat3.afisare();
+// Angajat
+	Angajat ang(5500, "Madalina", 30, 'F'); // constructor cu parametrii
+	ang.afisare();
+	Angajat angaj  = ang;
+	angaj.setNume("Ionut");
+	angaj.setVarsta(45);
+	char* t = angaj.getTip();
+	*t='M';
+	angaj.setTip(t);
+	angaj.afisare();
+	cout<<ang.getNume()<<" are varsta peste 40 de ani? "<<getMajor(ang)<<endl;
+	cout<<angaj.getNume()<<" are varsta peste 40 de ani? "<<getMajor(angaj)<<endl;
+	
+	return 0;
 
 	cout << "Toti angajatii au " << angajat1.getZileConcediu() << " zile de concediu" << endl;
 
