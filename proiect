@@ -1,546 +1,12 @@
-/*FAZA 1
-#include <iostream>
-
-using namespace std;
-
-//domeniul este CO RP ORATIE- Popescu Ruxandra
-//cele 3 obeicte sunt Angajat, Departament, Proiect
-
-class Angajat {
-public:
-	const int salariu; //atribut constant 
-	string nume; //atribut normal
-	int varsta; //atribut normal
-	static int zileConcediu; //atribut static
-	char* tip; // valoare alocata in HEAP
-
-	// constructor implicit
-	Angajat() :salariu(3000) {
-		nume = "Adrian";
-		varsta = 29;
-		tip = new char('M');
-	}
-
-	// constructor cu parametrii
-	Angajat(string nume, int varsta, char tip) :salariu(4000) {
-		this->nume = nume;
-		this->varsta = varsta;
-		this->tip = new char(tip);
-	}
-
-	// constructor cu parametrii din care unul este static
-	Angajat(string nume, int varsta) :salariu(5000) {
-		this->nume = nume;
-		this->varsta = varsta;
-		this->tip = new char('M');
-	}
-
-	// funcție statică pentru calcul
-	static int getZileConcediu() {
-		return zileConcediu;
-	}
-
-	// functie de afisare 
-	void afisare() {
-		cout << "Angajatul " << nume << " are salariul " << salariu << "lei, varsta de " << varsta << " ani si este de tip " << *tip << endl << endl;
-	}
-};
-
-class Departament {
-public:
-	//atribut constant 
-	const string nume;
-	//atribut normal
-	int anInfiintare;
-	int nrAngajati;
-	//atribut static
-	static string sediu;
-	//pointer cu spatiu in HEAP
-	float* nrDep;
-
-	// constructor implicit
-	Departament() :nume("AHM") {
-		anInfiintare = 1980;
-		nrAngajati = 100;
-		nrDep = new float(22.1);
-	}
-
-	// constructor cu parametrii
-	Departament(int anInfiintare, int nrAngajati, float nrDep) :nume("DLL") {
-		this->anInfiintare = anInfiintare;
-		this->nrAngajati = nrAngajati;
-		this->nrDep = new float(nrDep);
-	}
-
-	// constructor cu parametrii din care unul este static
-	Departament(int nrAngajati, float nrDep) :nume("CSV") {
-		this->anInfiintare = 2010;
-		this->nrAngajati = nrAngajati;
-		this->nrDep = new float(nrDep);
-	}
-
-	// Funcție statică pentru calcul
-	static string getSediu() {
-		return sediu;
-	}
-
-	// functie de afisare 
-	void afisare() {
-		cout << "Departamentul " << nume << " cu numarul de departament " << *nrDep << ", a fost infiintat in anul " << anInfiintare << " si are " << nrAngajati << " angajati.\n" << endl;
-	}
-};
-
-string Departament::sediu = "Cibernetica";
-
-class Proiect {
-public:
-	const bool aprobare;
-	int durata;
-	float cost;
-	static string nume;
-	int* dataStart = NULL;
-
-	Proiect() :aprobare(false) {
-		durata = 5;
-		cost = 500.4;
-		dataStart = new int[3] {1, 1, 2025};
-	}
-
-	Proiect(int durata, float cost, int dataStart[3]) :aprobare(true) {
-		this->durata = durata;
-		this->cost = cost;
-		this->dataStart = new int[3];
-		this->dataStart = dataStart;
-	}
-
-	Proiect(int durata, int dataStart[3]) :aprobare(true) {
-		this->durata = durata;
-		this->cost = 122.22;
-		this->dataStart = new int[3];
-		this->dataStart = dataStart;
-	}
-
-	static string getNume() {
-		return nume;
-	}
-
-	void afisare() {
-		cout << "Proiectul care incepe in data de " << dataStart[0] << "." << dataStart[1] << "." << dataStart[2] << ", cu durata de " << durata << " zile si costurile de " << cost << " lei";
-
-		if (aprobare) {
-			cout << " a fost aprobat.\n" << endl;
-		}
-		else {
-			cout << " nu a fost aprobat.\n" << endl;
-		}
-	}
-};
-
-string Proiect::nume = "PlanulAfacerii";
-
-int main() {
-	// Testăm toți constructorii pentru cele trei clase
-
-	//Clasa Angajat
-	
-	Angajat angajat1; // constructor implicit
-	angajat1.afisare();
-	Angajat angajat2("Madalina", 30, 'F'); // constructor cu parametrii
-	angajat2.afisare();
-	Angajat angajat3("Ion", 44); // constructor cu parametrii si unul este static
-	angajat3.afisare();
-// Angajat
-	Angajat ang(5500, "Madalina", 30, 'F'); // constructor cu parametrii
-	ang.afisare();
-	Angajat angaj  = ang;
-	angaj.setNume("Ionut");
-	angaj.setVarsta(45);
-	char* t = angaj.getTip();
-	*t='M';
-	angaj.setTip(t);
-	angaj.afisare();
-	cout<<ang.getNume()<<" are varsta peste 40 de ani? "<<getMajor(ang)<<endl;
-	cout<<angaj.getNume()<<" are varsta peste 40 de ani? "<<getMajor(angaj)<<endl;
-	
-	return 0;
-
-	cout << "Toti angajatii au " << angajat1.getZileConcediu() << " zile de concediu" << endl;
-
-
-	//Clasa Departament
-	
-	Departament dep1; // constructor implicit
-	dep1.afisare();
-	Departament dep2(2003, 45, 12.6); // constructor cu parametrii
-	dep2.afisare();
-	Departament dep3(100, 5.6); // constructor cu parametrii si unul este static
-	dep3.afisare();
-
-	cout << "Toate departamentele au sediul la " << dep2.getSediu() << endl << endl;
-
-	//Clasa Proiect
-	
-	Proiect pr1; // constructor implicit
-	pr1.afisare();
-	int dataPr2[3] = { 12, 6, 2024 };
-	Proiect pr2(30, 135.25, dataPr2); // constructor cu parametrii
-	pr2.afisare();
-	int dataPr3[3] = { 25, 10, 2026 };
-	Proiect pr3(50, dataPr3); // constructor cu parametrii si unul este static
-	pr3.afisare();
-
-	cout << "Toate proiectele fac parte din clasa " << pr3.getNume() << endl << endl;
-
-	return 0;
-}
-*/
-
-/*FAZA 2
+/*
+FAZA 4
 #include<iostream>
-
+#include<vector>
 using namespace std;
 
 class Angajat {
 private:
     const int salariu; //atribut constant 
-	string nume; //atribut normal
-	int varsta; //atribut normal
-	static int zileConcediu; //atribut static
-	char* tip; // valoare alocata in HEAP
-
-public:
-	// constructor implicit
-    Angajat():salariu(3000){
-        this->nume = "Gigel";
-        this->varsta = 29;
-        this->tip = new char('M');
-    }	
-	
-	// constructor cu parametrii
-	Angajat(int salariu, string nume, int varsta, char tip):salariu(salariu){
-	    this->nume = nume;
-	    this->varsta = varsta;
-	    this->tip = new char(tip);
-	}
-
-	// constructor cu parametrii din care unul este static
-	Angajat(int salariu, string nume, int varsta):salariu(salariu){
-	    this->nume = nume;
-	    this->varsta = varsta;
-	    this->tip = new char('M');
-	}
-	
-	// constructor de copiere
-	Angajat(const Angajat&a):salariu(a.salariu){
-	    this->nume = a.nume;
-	    this->varsta = a.varsta;
-	    this->tip = new char();
-	    this->tip = a.tip;
-	}
-
-    ~Angajat(){
-        if (this->tip != NULL) {
-            delete this->tip;
-        }
-    }
-	
-	//get-eri
-	int getSalariu(){
-	    return this->salariu;
-	}
-	string getNume(){
-	    return this->nume;
-	}
-	int getVarsta(){
-	    return this->varsta;
-	}
-	char* getTip(){
-	    return this->tip;
-	}
-	static int getZileConcediu(){
-	    return Angajat::zileConcediu;
-	}
-	
-	//set-eri
-	void setNume(string nume){
-	    this->nume = nume;
-	}
-	void setVarsta(int varsta){
-	    this->varsta = varsta;
-	}
-	void setTip(char* tip){
-	    this->tip = tip;
-	}
-	static void setZileDeConcediu(int zileConcediu){
-	    Angajat::zileConcediu = zileConcediu;
-	}
-	
-	// functie de afisare 
-	void afisare(){
-	    cout<<"Angajatul "<<this->nume<<" are salariul "<<this->salariu<<"lei, varsta de "<<this->varsta<<" ani si este de tip "<<*this->tip<<endl;
-	}
-	
-	friend string getResponse(int a, int threshold);
-};
-
-
-class Departament {
-private:
-    //atribut constant 
-    const string nume;
-	//atribut normal
-	int anInfiintare;
-	int nrAngajati;
-	//atribut static
-	static string sediu;
-	//pointer cu spatiu in HEAP
-	float* nrDep;
-	
-public:
-	// constructor implicit
-    Departament():nume("AHM"){
-        anInfiintare = 1980;
-        nrAngajati = 100;
-        nrDep = new float(22.1);
-    }	
-    
-	// constructor cu parametrii
-	Departament(string nume, int anInfiintare, int nrAngajati, float nrDep):nume(nume){
-	    this->anInfiintare = anInfiintare;
-	    this->nrAngajati = nrAngajati;
-	    this->nrDep = new float(nrDep);
-	}
-
-	// constructor cu parametrii din care unul este static
-	Departament(string nume, int nrAngajati, float nrDep):nume(nume){
-	    this->anInfiintare = 2010;
-	    this->nrAngajati = nrAngajati;
-	    this->nrDep = new float(nrDep);
-	}
-	
-	// constructor de copiere
-	Departament(const Departament&d):nume(d.nume){
-	    this->anInfiintare = d.anInfiintare;
-	    this->nrAngajati = d.nrAngajati;
-	    this->nrDep = new float();
-	    this->nrDep = d.nrDep;
-	}
-
-	
-	~Departament(){
-        if (this->nrDep != NULL) {
-            delete this->nrDep;
-        }
-    }
-	
-	//get-eri
-	int getAnInfiintare(){
-	    return this->anInfiintare;
-	}
-	string getNume(){
-	    return this->nume;
-	}
-	int getNrAngajati(){
-	    return this->nrAngajati;
-	}
-	float* getNrDep(){
-	    return this->nrDep;
-	}
-	static string getSediu(){
-	    return Departament::sediu;
-	}
-	
-	//set-eri
-	void setAnInfiintare(int anInfiintare){
-	    this->anInfiintare = anInfiintare;
-	}
-	void setNrAngajati(int nrAngajati){
-	    this->nrAngajati = nrAngajati;
-	}
-	void setNrDep(float* nrDep){
-	    this->nrDep = nrDep;
-	}
-	
-	static void setSediu(string sediu){
-	    Departament::sediu = sediu;
-	}
-	
-	// functie de afisare 
-	void afisare(){
-	    cout<<"Departamentul "<<this->nume<<" cu numarul de departament "<<*this->nrDep<<", a fost infiintat in anul "<<this->anInfiintare<<" si are "<<this->nrAngajati<<" angajati."<<endl;
-	}
-	
-	friend string getResponse(int a, int threshold);
-};
-
-class Proiect {
-private:
-    const bool aprobare;
-    int durata;
-    float cost;
-    static string nume;
-    int* dataStart = NULL;
-
-public:   
-    Proiect():aprobare(false){
-        durata = 5;
-        cost = 500.4;
-        dataStart = new int[3] {1, 1, 2025} ;
-    }
-    
-    Proiect(bool aprobare, int durata, float cost, int* dataStart):aprobare(aprobare){
-        this->durata = durata;
-        this->cost = cost;
-        this->dataStart = new int[3];
-        for (int i = 0; i< 3; i++){
-            this->dataStart[i] = dataStart[i];
-        }
-    }
-    
-    Proiect(bool aprobare, int durata, int* dataStart):aprobare(aprobare){
-        this->durata = durata;
-        this->cost = 122.22;
-        this->dataStart = new int[3];
-        for (int i = 0; i< 3; i++){
-            this->dataStart[i] = dataStart[i];
-        }
-    }
-    
-    // constructor de copiere
-	Proiect(const Proiect&p):aprobare(p.aprobare){
-	    this->durata = p.durata;
-        this->cost = p.cost;
-        this->dataStart = new int[3];
-        for (int i = 0; i< 3; i++){
-            this->dataStart[i] = p.dataStart[i];
-        }
-	}
-
-    ~Proiect(){
-        if (this->dataStart != NULL) {
-            delete[] this->dataStart;
-        }
-    }
-    
-    void afisare(){
-        cout<<"Proiectul care incepe in data de "<<dataStart[0]<<"."<<dataStart[1]<<"."<<dataStart[2]<<", cu durata de "<<this->durata<<" zile si costurile de "<<this->cost<<" lei";
-        
-        if (this->aprobare) {
-            cout<<" a fost aprobat."<<endl;
-        } else {
-            cout<<" nu a fost aprobat."<<endl;
-        }
-    }
-    
-    //get-eri
-	bool getAprobare(){
-	    return this->aprobare;
-	}
-	int getDurata(){
-	    return this->durata;
-	}
-	float getCost(){
-	    return this->cost;
-	}
-	int* getData(){
-	    return this->dataStart;
-	}
-	static string getNume(){
-	    return Proiect::nume;
-	}
-	
-	//set-eri
-	void setDurata(int durata){
-	    this->durata = durata;
-	}
-	void setCost(float cost){
-	    this->cost = cost;
-	}
-	void setData(int* data){
-        if (this->dataStart != NULL) {
-            delete[]this->dataStart;
-        }
-	    dataStart = new int[3];
-        for (int i = 0; i< 3; i++){
-            this->dataStart[i] = data[i];
-        }
-	}
-	static void setNume(string nume){
-	    Proiect::nume = nume;
-	}
-	
-	friend string getResponse(int a, int threshold);
-};
-
-string getResponse(int a, int threshold){
-    return a > threshold ? "CORECT!" : "INCORECT!";
-}
-
-int Angajat::zileConcediu = 21; //atribuire element static 
-string Departament::sediu = "Cibernetica";
-string Proiect::nume = "CodeIsMyLife";
-
-int main() {
-	// Angajat
-	Angajat ang(5500, "Madalina", 30, 'F'); // constructor cu parametrii
-	ang.afisare();
-	Angajat angaj  = ang;
-	angaj.setNume("Ionut");
-	angaj.setVarsta(45);
-	char* t = angaj.getTip();
-	*t='M';
-	angaj.setTip(t);
-	angaj.afisare();
-	
-	int th = 40;
-	cout<<ang.getNume()<<" are varsta peste "<<th<<" de ani? "<<getResponse(ang.getVarsta(), th)<<endl;
-	cout<<angaj.getNume()<<" are varsta peste "<<th<<" de ani? "<<getResponse(angaj.getVarsta(), th)<<endl;
-	cout<<"\n\n"<<endl; //print 3x new line
-	
-	
-	// Departament
-	Departament dep("XLSX", 1990, 100, 14.5); // constructor cu parametrii
-	dep.afisare();
-	Departament departament = dep;
-	departament.setAnInfiintare(2010);
-	departament.setNrAngajati(200);
-	float* f = departament.getNrDep();
-	*f=18.9;
-	departament.setNrDep(f);
-	departament.afisare();
-	int thr = 50;
-	cout<<"Departamentul infiintat in anul "<<dep.getAnInfiintare()<<" are peste "<<thr<<" angajati? "<<getResponse(dep.getNrAngajati(), thr)<<endl;
-	cout<<"Departamentul infiintat in anul "<<departament.getAnInfiintare()<<" are peste "<<thr<<" angajati? "<<getResponse(departament.getNrAngajati(), thr)<<endl;	
-
-    //Proiect
-    int* dataPr = new int[3] {12, 12, 2012};
-    Proiect pr(true, 20, 100.0, dataPr);
-	pr.afisare();
-	
-	Proiect proiect = pr;
-	proiect.setDurata(10);
-	proiect.setCost(50);
-	int* dataProiect = proiect.getData();
-	dataProiect = new int[3] {11, 11, 2022};
-	proiect.setData(dataProiect);
-	proiect.afisare();
-	
-	int prag = 50;
-	
-	cout<<"Proiectul care costa "<<pr.getCost()<<"lei dureaza mai mult de "<<prag<<" zile? "<<getResponse(pr.getDurata(), prag)<<endl;
-	cout<<"Proiectul care costa "<<proiect.getCost()<<"lei dureaza mai mult de "<<prag<<" zile? "<<getResponse(proiect.getDurata(), prag)<<endl;
-
-	return 0;
-}
-*/
-
-/*
-Faza 3
-#include<iostream>
-
-using namespace std;
-
-
 	string nume; //atribut normal
 	int varsta; //atribut normal
 	static int zileConcediu; //atribut static
@@ -648,7 +114,6 @@ public:
 	
 	friend string getResponse(int a, int threshold);
 };
-
 
 class Departament {
 private:
@@ -903,64 +368,93 @@ int Angajat::zileConcediu = 21; //atribuire element static
 string Departament::sediu = "Cibernetica";
 string Proiect::nume = "CodeIsMyLife";
 
-int main() {
-	// Angajat
-	cout<<"CLASA ANGAJAT"<<endl;;
-    Angajat a(5500, "Madalina", 30, 'F'); // constructor cu parametrii
-	cout<<"a = "; a.afisare();
-	cout<<"\nOperatorul =: Atribuire"<<endl;
-	Angajat b = a;
-	cout<<"b = "; b.afisare();
-	cout<<"\nOperatorul +: Concatenarea numelor: a + b"<<endl;
-	Angajat c = a + b;
-	cout<<"c = "; c.afisare();
-	cout<<"\nOperatorul -: Diferenta varstelor: a - b"<<endl;
-	Angajat d = a - b;
-	cout<<"d = "; d.afisare();
-	cout<<"\nOperatorul +=: Suma varstelor: a += b"<<endl;
-	a+=b;
-	cout<<"a = "; a.afisare();
-	cout<<"\n\n"<<endl;
-	
-	// Departament
-	cout<<"CLASA DEPARTAMENT"<<endl;;
-    Departament e("XLSX", 1990, 100, 14.5); // constructor cu parametrii
-	cout<<"e = "; e.afisare();
-	cout<<"\nOperatorul =: Atribuire"<<endl;
-	Departament f = e;
-	cout<<"f = "; f.afisare();
-	cout<<"\nOperatorul *: Multiplica numerele departamentelor: e * f"<<endl;
-	Departament g = e * f;
-	cout<<"g = "; g.afisare();
-	cout<<"\nOperatorul /: Impartirea anilor de infiinatre: e / f"<<endl;
-    Departament h =  e / f;
-	cout<<"h = "; h.afisare();
-	cout<<"\nOperatorul -=: Diferenta intre nr de angajati: e -= f"<<endl;
-	e-=f;
-	cout<<"e = "; e.afisare();
-	cout<<"\n\n"<<endl;
+Angajat citireInformatiiAngajat(int i){
+    int salariu; string nume; int varsta; char tip;
+    cout<<"Introduceti numele angajatului "<<i + 1<<": "; cin>>nume;
+    cout<<"Introduceti salariul angajatului "<<nume<<": "; cin>>salariu;
+    cout<<"Introduceti varsta angajatului "<<nume<<": "; cin>>varsta;
+    cout<<"Introduceti tipul angajatului "<<nume<<": "; cin>>tip;
+    return Angajat(salariu, nume, varsta, tip);
+}
 
-    //Proiect
-    cout<<"CLASA PROIECT"<<endl;
-    int* dataPr = new int[3] {12, 12, 2012};
-    Proiect i(true, 20, 100.0, dataPr);
-	cout<<"i = "; i.afisare();
-	cout<<"\nOperatorul =: Atribuire"<<endl;
-	Proiect j = i;
-	cout<<"j = "; j.afisare();
-	cout<<"\nOperatorul >: Verifica daca durata lui j > i"<<endl;
-	string k = (j > i);
-	cout<<"k = "<<k<<endl;
-	cout<<"\nOperatorul <=: Verifica daca costul lui j <= i"<<endl;
-    string l = (j <= i);
-	cout<<"l = "<<l<<endl;
-	cout<<"\nOperatorul !=: Verifica daca datele de start sunbt diferite: j != i"<<endl;
-	string m = (j != i);
-	cout<<"m = "<<m<<endl;
+Departament citireInformatiiDepartament(int i){
+    string nume; int anInfiintare; int nrAngajati; float nrDep;
+    cout<<"Introduceti numele departamentului "<<i + 1<<": "; cin>>nume;
+    cout<<"Introduceti anul de infiintare al departamentului "<<nume<<": "; cin>>anInfiintare;
+    cout<<"Introduceti nr de angajati ai departamentului "<<nume<<": "; cin>>nrAngajati;
+    cout<<"Introduceti nr departamentului "<<nume<<": "; cin>>nrDep;
+    return Departament(nume, anInfiintare, nrAngajati, nrDep);
+}
+
+Proiect citireInformatiiProiect(int i){
+    string aprobare; int durata; float cost; int* dataStart; int a, b, c;
+    cout<<"Introduceti daca proiectul este sau nu aprobat: optiuni valide: true sau false: "; cin>>aprobare;
+    cout<<"Introduceti durata proiectului "<<i + 1<<": "; cin>>durata;
+    cout<<"Introduceti costul proiectului "<<i + 1<<": "; cin>>cost;
+    cout<<"Introduceti data de inceput a proiectului "<<i + 1<<": "<<endl;
+    cout<<"Ziua: ";cin>>a;
+    cout<<"Luna: ";cin>>b;
+    cout<<"Anul: ";cin>>c; 
+    dataStart = new int[3] {a, b, c} ;
+    bool ap = aprobare == "true";
+    return Proiect(ap, durata, cost, dataStart);
+}
+
+int main() {
+	
+	vector<Angajat> angajati;
+	vector<Departament> departamente;
+	vector<Proiect> proiecte;
+	vector<vector<Angajat>> matrice;
+	int a, d, p;
+	
+	cout<<endl<<"Introduceti nr de elemente din vectorul cu angajati: "; cin>>a;
+	cout<<a<<endl;
+	
+	for (int i = 0; i < a; i++){
+	    cout<<i<<endl;
+	    Angajat ang = citireInformatiiAngajat(i);
+	    angajati.push_back(ang);
+	}
+	
+	cout<<endl<<"Introduceti nr de elemente din vectorul cu departemente: "; cin>>d;
+	for (int i = 0; i < d; i++){
+	    Departament dep = citireInformatiiDepartament(i);
+	    departamente.push_back(dep);
+	}
+	
+	cout<<endl<<"Introduceti nr de elemente din vectorul cu proiecte: "; cin>>p;
+	for (int i = 0; i < p; i++){
+	    Proiect pr = citireInformatiiProiect(i);
+	    proiecte.push_back(pr);
+	}
+	
+	for (int i = 0; i < angajati.size(); i++){
+	    angajati[i].afisare();
+	    cout<<endl;
+	}
+	
+	for (int i = 0; i < departamente.size(); i++){
+	    departamente[i].afisare();
+	    cout<<endl;
+	}
+	
+	for (int i = 0; i < proiecte.size(); i++){
+	    proiecte[i].afisare();
+	    cout<<endl;
+	}
+	
+	int j; 
+	cout<<"Introduceti nr de randuri din marice: ";cin>>j;
+	for (int i = 0; i < j; i++){
+	    matrice.push_back(angajati);
+	}
+	
+	for (int i = 0; i< matrice.size(); i++){
+	    for(int j = 0; j< angajati.size(); j++){
+	        matrice[i][j].afisare();
+	    }
+	}
 	return 0;
 }
 */
-
-
-
-
