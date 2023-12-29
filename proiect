@@ -1,5 +1,5 @@
 /*
-FAZA 4
+FAZA 5
 #include<iostream>
 #include<vector>
 using namespace std;
@@ -109,7 +109,7 @@ public:
 	
 	// functie de afisare 
 	void afisare(){
-	    cout<<"Angajatul "<<this->nume<<" are salariul "<<this->salariu<<"lei, varsta de "<<this->varsta<<" ani si este de tip "<<*this->tip<<endl;
+	    cout<<"Angajatul "<<this->nume<<" are salariul "<<this->salariu<<"lei, varsta de "<<this->varsta<<" ani si este de tip "<<this->tip<<endl;
 	}
 	
 	friend string getResponse(int a, int threshold);
@@ -360,6 +360,77 @@ public:
 	friend string getResponse(int a, int threshold);
 };
 
+class Firma{
+private:
+    string nume;
+    Angajat ceo;
+    string CUI;
+    int ID;
+public:  
+    // constructor cu parametrii
+	Firma(string nume, Angajat ceo, string CUI, int ID){
+	    this->nume = nume;
+	    this->ceo = ceo;
+	    this->CUI = CUI;
+	    this->ID = ID;
+	}
+
+    const Firma& operator= (const Firma&f) {
+        if (this != &f) {
+            if (this->ceo.getTip() != NULL)
+                delete this->ceo.getTip();
+            this->nume = f.nume;
+    	    this->ceo = f.ceo;
+    	    this->CUI = f.CUI;
+    	    this->ID = ID;
+        }
+        return *this;
+    }
+    
+    Firma operator+ (Firma&f){
+        Firma temp = *this;
+        temp.ID += f.ID;
+        return temp;
+    }
+    
+    string operator< (int level){
+        return this->nume.size() < level ? "YES" : "NO"; 
+    }
+    
+    //get-eri
+    string getNumeFirma(){
+        return this->nume;
+    }
+    Angajat getCeo(){
+        return this->ceo;
+    }
+    string getCUI(){
+        return this->CUI;
+    }
+    int getID(){
+        return this->ID;
+    }
+    
+    //set-eri
+    void setNumeFirma(string nume){
+        this->nume = nume;
+    }
+    void setCeo(Angajat ceo){
+        this->ceo = ceo;
+    }
+    void setCUI(string CUI){
+        this->CUI = CUI;
+    }
+    void setID(int ID){
+        this->ID = ID;
+    }
+    
+    void afiseazaDetaliiFirma(){
+        cout<<"Firma: "<<this->nume<<"\nCEO: "<<this->ceo.getNume()<<"\nCUI: "<<this->CUI<<"\nID: "<<this->ID<<endl;
+        cout<<endl;
+    }
+};
+
 string getResponse(int a, int threshold){
     return a > threshold ? "CORECT!" : "INCORECT!";
 }
@@ -401,60 +472,24 @@ Proiect citireInformatiiProiect(int i){
 }
 
 int main() {
+	Angajat baiat(5600, "Alex", 25, 'M');
+	Angajat fata(6000, "Ioana", 25, 'F');
 	
-	vector<Angajat> angajati;
-	vector<Departament> departamente;
-	vector<Proiect> proiecte;
-	vector<vector<Angajat>> matrice;
-	int a, d, p;
+	Firma IT("IT", baiat, "123321", 10);
+	Firma Fashion("Fashion", fata, "456654", 9);
 	
-	cout<<endl<<"Introduceti nr de elemente din vectorul cu angajati: "; cin>>a;
-	cout<<a<<endl;
+	IT.afiseazaDetaliiFirma();
+	Fashion.afiseazaDetaliiFirma();
 	
-	for (int i = 0; i < a; i++){
-	    cout<<i<<endl;
-	    Angajat ang = citireInformatiiAngajat(i);
-	    angajati.push_back(ang);
-	}
+	Firma newIT = IT + Fashion;
+	newIT.afiseazaDetaliiFirma();
 	
-	cout<<endl<<"Introduceti nr de elemente din vectorul cu departemente: "; cin>>d;
-	for (int i = 0; i < d; i++){
-	    Departament dep = citireInformatiiDepartament(i);
-	    departamente.push_back(dep);
-	}
+	int level = 5;
+	string y = IT < level;
+	string n = Fashion < level;
+	cout<<"Numele firmei len("<<IT.getNumeFirma()<<") < "<<level<<"? "<<y<<endl;
+	cout<<"Numele firmei len("<<Fashion.getNumeFirma()<<") < "<<level<<"? "<<n<<endl;
 	
-	cout<<endl<<"Introduceti nr de elemente din vectorul cu proiecte: "; cin>>p;
-	for (int i = 0; i < p; i++){
-	    Proiect pr = citireInformatiiProiect(i);
-	    proiecte.push_back(pr);
-	}
-	
-	for (int i = 0; i < angajati.size(); i++){
-	    angajati[i].afisare();
-	    cout<<endl;
-	}
-	
-	for (int i = 0; i < departamente.size(); i++){
-	    departamente[i].afisare();
-	    cout<<endl;
-	}
-	
-	for (int i = 0; i < proiecte.size(); i++){
-	    proiecte[i].afisare();
-	    cout<<endl;
-	}
-	
-	int j; 
-	cout<<"Introduceti nr de randuri din marice: ";cin>>j;
-	for (int i = 0; i < j; i++){
-	    matrice.push_back(angajati);
-	}
-	
-	for (int i = 0; i< matrice.size(); i++){
-	    for(int j = 0; j< angajati.size(); j++){
-	        matrice[i][j].afisare();
-	    }
-	}
 	return 0;
 }
 */
